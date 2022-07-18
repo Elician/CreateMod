@@ -3,10 +3,12 @@ package com.simibubi.create.content.logistics.block.mechanicalArm;
 import java.util.Collection;
 import java.util.function.Supplier;
 
+import com.simibubi.create.compat.griefdefender.GriefDefenderUtils;
 import com.simibubi.create.foundation.networking.SimplePacketBase;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
@@ -58,7 +60,13 @@ public class ArmPlacementPacket extends SimplePacketBase {
 				TileEntity tileEntity = world.getBlockEntity(pos);
 				if (!(tileEntity instanceof ArmTileEntity))
 					return;
-
+				for (INBT inbt : receivedTag) {
+					ArmInteractionPoint point = ArmInteractionPoint.deserialize(world, pos, (CompoundNBT) inbt);
+					if (point == null)
+						continue;
+					if(!GriefDefenderUtils.canInteract(world,pos,point.pos))
+						receivedTag.remove(inbt);
+				}
 				ArmTileEntity arm = (ArmTileEntity) tileEntity;
 				arm.interactionPointTag = receivedTag;
 			});

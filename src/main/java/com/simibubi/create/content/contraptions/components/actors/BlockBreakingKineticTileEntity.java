@@ -2,6 +2,7 @@ package com.simibubi.create.content.contraptions.components.actors;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.simibubi.create.compat.griefdefender.GriefDefenderUtils;
 import com.simibubi.create.content.contraptions.base.KineticTileEntity;
 import com.simibubi.create.foundation.utility.VecHelper;
 
@@ -40,7 +41,7 @@ public abstract class BlockBreakingKineticTileEntity extends KineticTileEntity {
 		if (destroyProgress == -1)
 			destroyNextTick();
 	}
-	
+
 	@Override
 	public void lazyTick() {
 		super.lazyTick();
@@ -93,9 +94,9 @@ public abstract class BlockBreakingKineticTileEntity extends KineticTileEntity {
 			return;
 		if (getSpeed() == 0)
 			return;
-		
+
 		breakingPos = getBreakingPos();
-		
+
 		if (ticksUntilNextProgress < 0)
 			return;
 		if (ticksUntilNextProgress-- > 0)
@@ -129,7 +130,8 @@ public abstract class BlockBreakingKineticTileEntity extends KineticTileEntity {
 	}
 
 	public boolean canBreak(BlockState stateToBreak, float blockHardness) {
-		return isBreakable(stateToBreak, blockHardness);
+		return GriefDefenderUtils.canInteract(getWorld(),getBlockPos(),getBreakingPos()) &&
+				isBreakable(stateToBreak, blockHardness);
 	}
 
 	public static boolean isBreakable(BlockState stateToBreak, float blockHardness) {

@@ -24,6 +24,8 @@ import javax.annotation.Nullable;
 
 import com.simibubi.create.AllInteractionBehaviours;
 
+import com.simibubi.create.compat.griefdefender.GriefDefenderUtils;
+
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -309,6 +311,8 @@ public abstract class Contraption {
 			return false;
 		visited.add(pos);
 
+		if(!GriefDefenderUtils.canInteract(world,pos,anchor))
+			return true;
 		if (World.isOutsideBuildHeight(pos))
 			return true;
 		if (!world.isLoaded(pos))

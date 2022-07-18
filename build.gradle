@@ -94,6 +94,11 @@ mixin {
 }
 
 repositories {
+    jcenter()
+    maven {
+        name = 'sponge-repo'
+        url = 'https://repo.spongepowered.org/repository/maven-public/'
+    }
     maven {
         // Location of the maven that hosts JEI files (and TiC)
         name = "Progwml6 maven"
@@ -113,6 +118,11 @@ repositories {
         // Location of the maven for mixed mappings, Registrate, and Flywheel
         name = "tterrag maven"
         url = "https://maven.tterrag.com/"
+    }
+    maven {
+        // Location of the maven for GriefDefender API
+        name = 'griefdefender'
+        url = 'https://repo.glaremasters.me/repository/bloodshot'
     }
     maven {
         url = "https://www.cursemaven.com"
@@ -151,7 +161,8 @@ dependencies {
     // implementation fg.deobf("curse.maven:druidcraft-340991:3101903")
     implementation fg.deobf("com.ferreusveritas.dynamictrees:DynamicTrees-1.16.5:0.10.0-Beta25")
 
-
+    compileOnly 'org.spongepowered:spongeapi:8.0.0'
+    compileOnly group: 'com.griefdefender', name: 'api', version: '2.1.0-SNAPSHOT'
     // i'll leave this here commented for easier testing
     //runtimeOnly fg.deobf("vazkii.arl:AutoRegLib:1.4-35.69")
     //runtimeOnly fg.deobf("vazkii.quark:Quark:r2.0-212.984")
